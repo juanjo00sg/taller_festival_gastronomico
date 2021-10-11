@@ -80,7 +80,7 @@ class RestaurantController extends Controller
 
         Session::flash('success', 'Restaurante agregado exitosamente'); 
 
-        return redirect(route('home'));
+        return redirect('restaurants.index');
     }
 
     /**
