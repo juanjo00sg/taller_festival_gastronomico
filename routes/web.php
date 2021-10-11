@@ -30,8 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('restaurants', App\Http\Controllers\RestaurantController::class);
 
     Route::resource('categories', App\Http\Controllers\CategoryController::class);
+
+    Route::resource('users', App\Http\Controllers\UserController::class);
 });
 
-// Route::get('/restaurants', [App\Http\Controllers\RestaurantController::class, 'index'])->name('restaurants.index');
-// Route::get('/restaurants/{restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->name('restaurants.show');
-// Route::get('/restaurants', [App\Http\Controllers\RestaurantController::class, 'create'])->name('restaurants.create');
+

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -14,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::orderBy('id')->get();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -24,7 +30,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        {
+            Session::flash('failure', 'El usuario no tiene permisos para crear restaurantes.'); 
+
+            return redirect(route('home'));
+        }        
+
+        return view("users.create");
     }
 
     /**
@@ -33,9 +46,30 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        {
+            Session::flash('failure', 'El usuario no tiene permisos para crear restaurantes.'); 
+
+            return redirect(route('home'));
+        }
+
+        $input = $request->all();
+
+        $user = new User();
+        /* $user->name=$input['name'];
+        $user->email=$input['email'];        
+        $user->type =$input['type'] ;
+        $user->password=Hash::make($input['name']);              
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now(); */
+        $user->fill($input);
+        $user->save();
+
+        Session::flash('success', 'Usuario agregado exitosamente'); 
+
+        return redirect(route('users.index'));
     }
 
     /**
@@ -46,7 +80,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -57,7 +91,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -67,9 +101,16 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(StoreUserRequest $request, User $user)
     {
-        //
+        $input = $request->all();
+
+        $user-> fill($input);
+        $user->save();
+
+        Session::flash('success', 'Usuario editado exitosamente'); 
+
+        return redirect(route('users.index'));
     }
 
     /**
@@ -80,6 +121,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        Session::flash('success', 'Usuario removido exitosamente'); 
+
+        return redirect(route('users.index'));
     }
 }
