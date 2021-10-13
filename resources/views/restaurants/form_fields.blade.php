@@ -26,17 +26,18 @@
         {{ Form::label('schedule', 'Horario', ['class' => 'form-label']) }}
         {{ Form::text('schedule', null, ['class' => 'form-control']) }}
     </div>
-    <div class=" mb mb-3">
+    <div class="mb mb-3">
         {{ Form::label('latitude', 'Latidud', ['class' => 'form-label']) }}
         {{ Form::text('latitude', null, ['class' => 'form-control', 'step' => 'any']) }}
     </div>
-    <div class=" mb mb-3">
+    <div class="mb mb-3">
         {{ Form::label('longitude', 'Longitud', ['class' => 'form-label']) }}
         {{ Form::text('longitude', null, ['class' => 'form-control', 'step' => 'any']) }}
     </div>
     <div class="mb-3">
-        {{ Form::label('logo', 'Logo', ['class' => 'form-label']) }}
-        {{ Form::file('image', ['class' => 'form-control', 'accept' => 'image/jpeg']) }}
+        {{ Form::label('logo', 'Logo', ['class' => 'form-label']) }} 
+        <br>       
+        {{ Form::file('logo',['class' => 'form-label']) }}        
     </div>
     <div class="mb mb-3">
         {{ Form::label('facebook', 'Facebook', ['class' => 'form-label']) }}

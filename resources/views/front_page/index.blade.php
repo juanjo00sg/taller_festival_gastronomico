@@ -30,13 +30,13 @@
                     @if (isset($restaurants[$i * 4 + $j]))
                         <?php
                         $restaurant = $restaurants[$i * 4 + $j];
-
-                        $img = $restaurant->logo ?? 'images/restaurant.png';                         
+                                     
+                        $img = $restaurant->logo ?? 'restaurant.png';
                         ?>
                         
                         <div class="col-3 mb-3">                        
-                            <div class="card">
-                                <img src="{{ asset($img) }}" class="card-img-top">
+                            <div class="card">                                
+                                <img src="{{ asset('images/restaurants/'.$img) }}" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $restaurant->name }}</h5>
                                     <h6 class="text-muted">{{ $restaurant->category->name }}</h6>
