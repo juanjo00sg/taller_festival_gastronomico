@@ -55,16 +55,13 @@ class UserController extends Controller
             return redirect(route('home'));
         }
 
-        $input = $request->all();
-
+        $input = $request->all();        
+                
         $user = new User();
-        /* $user->name=$input['name'];
-        $user->email=$input['email'];        
-        $user->type =$input['type'] ;
-        $user->password=Hash::make($input['name']);              
-        $user->created_at = Carbon::now();
-        $user->updated_at = Carbon::now(); */
         $user->fill($input);
+        
+        $user->password=Hash::make($input['password']);
+                
         $user->save();
 
         Session::flash('success', 'Usuario agregado exitosamente'); 
@@ -106,6 +103,7 @@ class UserController extends Controller
         $input = $request->all();
 
         $user-> fill($input);
+        $user->password=Hash::make($input['password']);
         $user->save();
 
         Session::flash('success', 'Usuario editado exitosamente'); 
