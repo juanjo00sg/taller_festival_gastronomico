@@ -2,10 +2,8 @@
 
 @section('content')
     <div class="container">
-        <h1>Crear un nuevo restaurante</h1>
-        @if($id)
-            <h1>{{$id}}</h1>
-        @endif
+        <h1>Dejar comentarios </h1>
+
         @if($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -16,8 +14,8 @@
             </div>
         @endif
 
-        {{ Form::open(['route' => 'restaurants.store', 'method' => 'post']) }}
-            @include('restaurants.form_fields')
+        {{ Form::open(['route' => 'comments.store', 'method' => 'post']) }}
+            @include('comments._form')
 
             {{ Form::submit('Crear', ['class' => 'btn btn-primary']); }}
             <a href="{{ route('home') }}" class="btn btn-secondary">Cancelar</a>

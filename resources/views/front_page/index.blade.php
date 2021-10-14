@@ -40,6 +40,12 @@
                                     <h6 class="text-muted">{{ $restaurant->category->name }}</h6>
                                     <p class="card-text">{{ $restaurant->description }}</p>
                                     <a href="{{ route("restaurants.show", $restaurant->id) }}" class="btn btn-primary">Visítenos</a>
+                                    @if( Auth::guest())
+
+                                    <a href="{{ route("comments.show", $restaurant->id) }}" class="btn btn-primary">Ver comentarios</a>
+                                    @else 
+                                    <a href="{{ route("comments.create", $restaurant->id) }}" class="btn btn-primary">Dejar comentarios</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
