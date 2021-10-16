@@ -37,3 +37,5 @@ Route::middleware(['auth'])->group(function () {
 
 Route::resource('comments',App\Http\Controllers\CommentController::class );
 
+Route::get('restaurants/show/{restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->name('restaurants.show');
+
