@@ -47,4 +47,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Restaurant::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(User::class);
+    }
 }
