@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        {{ Form::open(['route' => 'comments.store', 'method' => 'post']) }}
+        {{ Form::open(['route' => ['comments.store', $restaurant_id] , 'method' => 'post']) }}
             @include('comments._form')
 
             {{ Form::submit('Crear', ['class' => 'btn btn-primary']); }}

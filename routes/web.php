@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
     Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::POST('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+    Route::get('comments/{id}/crear', [App\Http\Controllers\CommentController::class, 'create'])->name('comments.create');
 });
+Route::get('comments/{id}' , [App\Http\Controllers\CommentController::class,'show'])->name('comments.show');
 
 
