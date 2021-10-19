@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 
@@ -11,7 +11,7 @@
                 {{ Form::button('<i class="fas fa-search"></i>', [
                     'class' => 'btn btn-info', 
                     'id' => 'button-filter',
-                    {{-- 'onclick' => 'submit()', --}}
+                    {{-- 'onclick' => 'submit()', 
                     'type' => 'submit'
                 ]) }}
         </div>
@@ -26,7 +26,7 @@
             @endforeach
      
 
-      {{--   {{ $restaurants->links() }} --}}
+      {{--   {{ $restaurants->links() }}
     </div>
 
-@endsection
+@endsection --}}
