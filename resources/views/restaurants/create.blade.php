@@ -2,10 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Crear un nuevo restaurante</h1>
-        @if($id)
-            <h1>{{$id}}</h1>
-        @endif
+        <h1>Crear un nuevo restaurante</h1>        
         @if($errors->any())
             <div class="alert alert-danger">
                 <ul>

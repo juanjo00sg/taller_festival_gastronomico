@@ -5,5 +5,6 @@
 </div>
 <div class="mb">
     {{ Form::label('score', 'Puntaje', ['class' => 'form-label']) }}
-    {{ Form::number('score', null, ['class' => 'form-control', 'maxlength' => 30]) }}
+    {{ Form::number('score', null, ['class' => 'form-control', 'max' => 5, 'min'=>1 ]) }}
+    
 </div>
