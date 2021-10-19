@@ -41,6 +41,22 @@ class CommentSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
+            [
+                'user_id' => 2,
+                'restaurant_id' => 1,
+                'comment' => 'Me salió un pelo, gas',
+                'score' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'user_id' => 2,
+                'restaurant_id' => 3,
+                'comment' => 'Rico pero nada del otro mundo',
+                'score' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
         ]);
     }
 }

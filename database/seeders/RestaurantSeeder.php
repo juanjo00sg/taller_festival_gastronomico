@@ -22,34 +22,62 @@ class RestaurantSeeder extends Seeder
                 'name' => 'La vaca loca',
                 'description' => 'Comida de vaca muy buena',
                 'city' => 'Manizales',
-                'phone' => '123',
+                'phone' => '1234567890',
                 'category_id' => 1,
                 'delivery' => 'y',
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+                'facebook' => 'La vaca loca',
+                'instagram' => 'LaVacaLoca',
+                'twitter' => 'LaVacaLoca',
+                'youtube' => 'La vaca loca'
+
             ],
             [
                 'user_id' => 1,
                 'name' => 'La hamburguesa loca',
                 'description' => 'Ricas hamburguesas',
                 'city' => 'Pereira',
-                'phone' => '456',
+                'phone' => '1234567890',
                 'category_id' => 2,
                 'delivery' => 'n',
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+                'facebook' => 'La hamburguesa loca',
+                'instagram' => 'LaHamburguesaLoca',
+                'twitter' => 'LaHamburguesaLoca',
+                'youtube' => 'La hamburguesa loca'
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'La pizza feliz',
                 'description' => 'Rica comida italiana',
                 'city' => 'Armenia',
-                'phone' => '890',
+                'phone' => '1234567890',
+                'category_id' => 3,
+                'delivery' => 'n',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'facebook' => 'La pizza feliz',
+                'instagram' => 'LaPizzaFeliz',
+                'twitter' => 'LaPizzaFeliz',
+                'youtube' => 'La Pizza Feliz'
+            ],
+            [
+                'user_id' => 2,
+                'name' => 'La Pasta Elegante',
+                'description' => 'Comida italiana Autentica',
+                'city' => 'Palestina',
+                'phone' => '1234567890',
                 'category_id' => 3,
                 'delivery' => 'y',
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ],
+                'updated_at' => Carbon::now(),
+                'facebook' => 'La pizza feliz',
+                'instagram' => 'LaPizzaFeliz',
+                'twitter' => 'LaPizzaFeliz',
+                'youtube' => 'La Pizza Feliz'
+            ]
         ]);
     }
 }
