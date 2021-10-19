@@ -15,13 +15,11 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        
-           /*  $comments =Comment::find(['restaurant_id', $id])->get();  
-            dd($comments, $id);    
-         return view('comments.index', ['comments', $comments]); */
-        //
+
+        $comments = Comment::find(['restaurant_id', $id])->get();
+        return view('comments.index', ['comments', $comments]);
     }
 
     /**
@@ -30,9 +28,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        
-;        //
+    {;        //
         return view('comments.create');
     }
 
@@ -44,15 +40,18 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-            $input = $request->all();
-            
-            $comment= new Comment();
-            $comment->fill($input);
-            $comment->user_id = Auth::id();
-            Session::flash('success', 'Comentario agregado exitosamente'); 
-            return redirect(route('home'));
-        //
+
+        $input = $request->all();
+
+        $comment = new Comment();
+        $comment->fill($input);
+        $comment->user_id = Auth::id();
+
+        $comment->save();
+
+        Session::flash('success', 'Comentario agregado exitosamente');
+
+        return redirect(route('home'));
     }
 
     /**
@@ -63,11 +62,10 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-     
-         $comments =Comment::where('restaurant_id', $id)->get();  
-         /* dd($comments); */
-            return view('comments.show', compact('comments') );
-        
+
+        $comments = Comment::where('restaurant_id', $id)->get();
+
+        return view('comments.show', compact('comments'));
     }
 
     /**
