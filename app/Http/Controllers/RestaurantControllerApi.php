@@ -59,7 +59,7 @@ class RestaurantControllerApi extends Controller
      */
     public function show($id)
     {
-        return $restaurant->find($id);
+        return Restaurant::find($id);
     }
 
     /**
@@ -71,9 +71,7 @@ class RestaurantControllerApi extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         
-        dd($request);
         $input = $request->all();
         
         $restaurant = new Restaurant();
