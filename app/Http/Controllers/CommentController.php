@@ -46,11 +46,14 @@ class CommentController extends Controller
             //return view('comments.show', compact('comments') );
         
     }
-    public function create($id)
+   
+    public function destroy($id)
     {
-        /* $restaurant_id=$id;
-;        //
-        return view('comments.create', compact('restaurant_id')); */
+        Restaurant::destroy($id);
+      
+
+        return response()->json(['message' => 'Commentario eliminado'], 200);
+        //
     }
 
 }
