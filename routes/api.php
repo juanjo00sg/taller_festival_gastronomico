@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
     Route::apiResource('restaurants', App\Http\Controllers\RestaurantControllerApi::class);
 
-    Route::apiResource('categories', App\Http\Controllers\CategoryController::class);
+    
 
 
     Route::POST('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');

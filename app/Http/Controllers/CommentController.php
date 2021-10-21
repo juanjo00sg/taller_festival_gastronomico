@@ -22,7 +22,12 @@ class CommentController extends Controller
             $comment->user_id = Auth::id();
             $comment->restaurant_id=$id;
             $comment->save();
-            return $comment;
+            //return $comment;
+            if ($comment) {
+                return response()->json(['message' => 'Comentario guardado con éxito'], $comments);
+            }
+    
+            return response()->json(['message' => 'Error guardando el comentario'], 500);
             /* Session::flash('success', 'Comentario agregado exitosamente'); 
             return redirect(route('home')); */
         //
@@ -31,7 +36,12 @@ class CommentController extends Controller
     {
      
          $comments =Comment::where('restaurant_id', $id)->get();  
-         return $comments;
+         if ($comments) {
+            return response()->json(['message' => 'Commentario encontrado'], $comments);
+        }
+
+        return response()->json(['message' => 'No se encontraron comentarios'], 404);
+         
          /* dd($comments); */
             //return view('comments.show', compact('comments') );
         

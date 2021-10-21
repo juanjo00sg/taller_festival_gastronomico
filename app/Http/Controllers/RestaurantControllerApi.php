@@ -19,7 +19,12 @@ class RestaurantControllerApi extends Controller
     {
        // $restaurants = Restaurant::owned(Auth::id())->orderBy('name', 'asc')->get();
 
-        return $restaurants=Restaurant::all();
+        $res=Restaurant::all();
+        if ($res) {
+            return response()->json(['message' => 'Restaurantes obtenidos con éxito'], 200);
+        }
+
+        return response()->json(['message' => 'No hay restaurantes registrados'], 404);
         //
     }
 
@@ -37,7 +42,12 @@ class RestaurantControllerApi extends Controller
         $restaurant->fill($input);
         $restaurant->save();
 
-        return $restaurant;
+        
+        if ($restaurant) {
+            return response()->json(['message' => 'Restaurante creado con éxito']);
+        }
+
+        return response()->json(['message' => 'Hubo un error intentando guardar el restaurante '], 500);
         //
     }
 
@@ -49,7 +59,7 @@ class RestaurantControllerApi extends Controller
      */
     public function show($id)
     {
-        //
+        return $restaurant->find($id);
     }
 
     /**
@@ -70,12 +80,12 @@ class RestaurantControllerApi extends Controller
         $restaurant->fill($input);
         
        $res = $restaurant->save();
-        return $res;
+       
         if ($res) {
-            return response()->json(['message' => 'Institute update succesfully']);
+            return response()->json(['message' => 'Restaurante actualizado']);
         }
 
-        return response()->json(['message' => 'Error to update Institute'], 500);
+        return response()->json(['message' => 'Hubo un error actualizando el restaurante'], 500);
     }
 
     /**
@@ -87,6 +97,9 @@ class RestaurantControllerApi extends Controller
     public function destroy($id)
     {
         Restaurant::destroy($id);
+      
+
+        return response()->json(['message' => 'Restaurante eliminado'], 200);
         //
     }
 }
