@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsControllerApi extends Controller
 {
@@ -29,13 +30,11 @@ class CommentsControllerApi extends Controller
         $input = $request->all();
             
         $comment= new Comment();
-        $comment->fill($input);
-        $comment->user_id = Auth::id();
-        $comment->restaurant_id=$id;
+        $comment->fill($input);                
         $comment->save();
-        //return $comment;
+        
         if ($comment) {
-            return response()->json(['message' => 'Comentario guardado con éxito'], $comments);
+            return response()->json(['message' => 'Comentario guardado con éxito', 'data'=>$comment], 200);
         }
 
         return response()->json(['message' => 'Error guardando el comentario'], 500);
@@ -72,10 +71,13 @@ class CommentsControllerApi extends Controller
      */
     public function destroy($id)
     {
-        Restaurant::destroy($id);
-      
+        
+        if (Comment::destroy($id)) {
+            return response()->json(['message' => 'Comentario eliminado'], 200);
+        }
+        return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);
 
-        return response()->json(['message' => 'Commentario eliminado'], 200);
+        
         
     }
 }

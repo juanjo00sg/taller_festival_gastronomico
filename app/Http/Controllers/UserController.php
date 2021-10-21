@@ -56,16 +56,16 @@ class UserController extends Controller
             return redirect(route('home'));
         } */
 
-        $input = $request->all();        
-                
+        $input = $request->all();
+
         $user = new User();
         $user->fill($input);
-        
-        $user->password=Hash::make($input['password']);
-                
+
+        $user->password = Hash::make($input['password']);
+
         $user->save();
 
-        
+
 
         return $user;
     }
@@ -76,10 +76,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($user)
     {
-        return $usuario->find($user);
-       // return view('users.show', compact('user'));
+
+        $usuario = User::find($user);       
+        if ($usuario) {
+            return $usuario;
+        }
+        return response()->json(['message' => 'Usuario NO encontrado en el registro'], 404);
+        
     }
 
     /**
@@ -90,7 +95,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-       // return view('users.edit', compact('user'));
+        // return view('users.edit', compact('user'));
     }
 
     /**
@@ -104,11 +109,11 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        $user-> fill($input);
-        $user->password=Hash::make($input['password']);
+        $user->fill($input);
+        $user->password = Hash::make($input['password']);
         $user->save();
 
-        
+
         return $user;
     }
 
@@ -120,11 +125,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-
-        return $this->sendResponse(
-            $user,
-            'Usuario eliminado'
-        );
+        
+        if (User::destroy($user)) {
+            return response()->json(['message' => 'Usuario eliminado'], 200);
+        }
+        return response()->json(['message' => 'Usuario no encontrado en el registro'], 404);
     }
 }
