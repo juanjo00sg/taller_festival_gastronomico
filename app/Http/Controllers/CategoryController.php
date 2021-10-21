@@ -61,7 +61,7 @@ class CategoryController extends Controller
 
         Session::flash('success', 'Categoria agregada exitosamente'); 
 
-        return redirect('categories.index');
+        return redirect(route('categories.index'));
     }
 
     /**
