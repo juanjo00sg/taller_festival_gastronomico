@@ -20,7 +20,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('id')->get();
-        return view('users.index', compact('users'));
+        //return view('users.index', compact('users'));
+        return $users;
     }
 
     /**
@@ -30,14 +31,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        /* if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
         {
             Session::flash('failure', 'El usuario no tiene permisos para crear restaurantes.'); 
 
             return redirect(route('home'));
         }        
 
-        return view("users.create");
+        return view("users.create"); */
     }
 
     /**
@@ -48,12 +49,12 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        /* if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
         {
             Session::flash('failure', 'El usuario no tiene permisos para crear restaurantes.'); 
 
             return redirect(route('home'));
-        }
+        } */
 
         $input = $request->all();        
                 
@@ -64,9 +65,9 @@ class UserController extends Controller
                 
         $user->save();
 
-        Session::flash('success', 'Usuario agregado exitosamente'); 
+        
 
-        return redirect(route('users.index'));
+        return $user;
     }
 
     /**
@@ -77,7 +78,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return $usuario->find($user);
+       // return view('users.show', compact('user'));
     }
 
     /**
@@ -88,7 +90,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+       // return view('users.edit', compact('user'));
     }
 
     /**
@@ -106,9 +108,8 @@ class UserController extends Controller
         $user->password=Hash::make($input['password']);
         $user->save();
 
-        Session::flash('success', 'Usuario editado exitosamente'); 
-
-        return redirect(route('users.index'));
+        
+        return $user;
     }
 
     /**
@@ -121,8 +122,9 @@ class UserController extends Controller
     {
         $user->delete();
 
-        Session::flash('success', 'Usuario removido exitosamente'); 
-
-        return redirect(route('users.index'));
+        return $this->sendResponse(
+            $user,
+            'Usuario eliminado'
+        );
     }
 }
