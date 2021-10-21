@@ -25,7 +25,7 @@ Route::get('/', [App\Http\Controllers\RestaurantController::class, 'showFrontPag
 
 //////////////////////////////////////////////
 
-Route::middleware(['auth'])->group(function () {
+/* Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::resource('restaurants', App\Http\Controllers\RestaurantController::class);
@@ -36,6 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::POST('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
     Route::get('comments/{id}/crear', [App\Http\Controllers\CommentController::class, 'create'])->name('comments.create');
 });
-Route::get('comments/{id}' , [App\Http\Controllers\CommentController::class,'show'])->name('comments.show');
+Route::get('comments/{id}' , [App\Http\Controllers\CommentController::class,'show'])->name('comments.show'); */
 
 

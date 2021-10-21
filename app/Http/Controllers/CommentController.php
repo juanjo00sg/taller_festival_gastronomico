@@ -22,23 +22,25 @@ class CommentController extends Controller
             $comment->user_id = Auth::id();
             $comment->restaurant_id=$id;
             $comment->save();
-            Session::flash('success', 'Comentario agregado exitosamente'); 
-            return redirect(route('home'));
+            return $comment;
+            /* Session::flash('success', 'Comentario agregado exitosamente'); 
+            return redirect(route('home')); */
         //
     }
     public function show($id)
     {
      
          $comments =Comment::where('restaurant_id', $id)->get();  
+         return $comments;
          /* dd($comments); */
-            return view('comments.show', compact('comments') );
+            //return view('comments.show', compact('comments') );
         
     }
     public function create($id)
     {
-        $restaurant_id=$id;
+        /* $restaurant_id=$id;
 ;        //
-        return view('comments.create', compact('restaurant_id'));
+        return view('comments.create', compact('restaurant_id')); */
     }
 
 }
