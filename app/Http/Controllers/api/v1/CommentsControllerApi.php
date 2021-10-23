@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 
-class UserControllerApi extends Controller
+class CommentsControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,7 @@ class UserControllerApi extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id')->get();
-        return $users;
+        //
     }
 
     /**
@@ -28,18 +26,18 @@ class UserControllerApi extends Controller
      */
     public function store(Request $request)
     {
+
         $input = $request->all();
 
-        $user = new User();
-        $user->fill($input);
+        $comment = new Comment();
+        $comment->fill($input);
+        $comment->save();
 
-        $user->password = Hash::make($input['password']);
+        if ($comment) {
+            return response()->json(['message' => 'Comentario guardado con éxito', 'data' => $comment], 200);
+        }
 
-        $user->save();
-
-
-
-        return $user;
+        return response()->json(['message' => 'Error guardando el comentario'], 500);
     }
 
     /**
@@ -52,7 +50,7 @@ class UserControllerApi extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -60,16 +58,9 @@ class UserControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user)
+    public function update(Request $request, $id)
     {
-        $input = $request->all();
-
-        $user->fill($input);
-        $user->password = Hash::make($input['password']);
-        $user->save();
-
-
-        return $user;
+        //
     }
 
     /**
@@ -78,11 +69,12 @@ class UserControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        if ($user->delete()) {
-            return response()->json(['message' => 'Usuario eliminado'], 200);
+
+        if (Comment::destroy($id)) {
+            return response()->json(['message' => 'Comentario eliminado'], 200);
         }
-        return response()->json(['message' => 'Usuario no encontrado en el registro'], 404);
+        return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);
     }
 }

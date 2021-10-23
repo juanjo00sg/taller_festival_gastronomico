@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\v1;
 
-use App\Models\Comment;
-use App\Models\Restaurant;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-
-class CommentsControllerApi extends Controller
+class UserControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +16,8 @@ class CommentsControllerApi extends Controller
      */
     public function index()
     {
-        //
+        $users = User::orderBy('id')->get();
+        return $users;
     }
 
     /**
@@ -29,18 +28,18 @@ class CommentsControllerApi extends Controller
      */
     public function store(Request $request)
     {
-
         $input = $request->all();
 
-        $comment = new Comment();
-        $comment->fill($input);
-        $comment->save();
+        $user = new User();
+        $user->fill($input);
 
-        if ($comment) {
-            return response()->json(['message' => 'Comentario guardado con éxito', 'data' => $comment], 200);
-        }
+        $user->password = Hash::make($input['password']);
 
-        return response()->json(['message' => 'Error guardando el comentario'], 500);
+        $user->save();
+
+
+
+        return $user;
     }
 
     /**
@@ -53,7 +52,7 @@ class CommentsControllerApi extends Controller
     {
         //
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -61,9 +60,16 @@ class CommentsControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,User $user)
     {
-        //
+        $input = $request->all();
+
+        $user->fill($input);
+        $user->password = Hash::make($input['password']);
+        $user->save();
+
+
+        return $user;
     }
 
     /**
@@ -72,12 +78,11 @@ class CommentsControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-
-        if (Comment::destroy($id)) {
-            return response()->json(['message' => 'Comentario eliminado'], 200);
+        if ($user->delete()) {
+            return response()->json(['message' => 'Usuario eliminado'], 200);
         }
-        return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);
+        return response()->json(['message' => 'Usuario no encontrado en el registro'], 404);
     }
 }

@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\UserControllerApi;
-use App\Http\Controllers\api\CommentsControllerApi;
-use App\Http\Controllers\api\RestaurantControllerApi;
+use App\Http\Controllers\api\v1\AuthController;
+use App\Http\Controllers\api\v1\UserControllerApi;
+use App\Http\Controllers\api\v1\CommentsControllerApi;
+use App\Http\Controllers\api\v1\RestaurantControllerApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,18 @@ use App\Http\Controllers\api\RestaurantControllerApi;
 |
 */
 
+Route::post('login',[ AuthController::class, 'login'])->name('api.login');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout',[ AuthController::class, 'logout'])->name('api.logout');
+});
+
 Route::apiResource('users', UserControllerApi::class)->only('index', 'show');
 Route::apiResource('restaurants', RestaurantControllerApi::class);
 route::apiResource('comments', CommentsControllerApi::class)->only('store', 'destroy');
-
-
 
 
