@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class RestaurantControllerApi extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRestaurantResquest $request)
     {
         $input = $request->all();
 
@@ -103,11 +103,10 @@ class RestaurantControllerApi extends Controller
      */
     public function destroy($id)
     {
-                
+
         if (Restaurant::destroy($id)) {
             return response()->json(['message' => 'Restaurante eliminado'], 200);
         }
         return response()->json(['message' => 'Restaurante no encontrado en el registro'], 404);
-        
     }
 }

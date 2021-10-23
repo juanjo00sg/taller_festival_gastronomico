@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,29 +19,23 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\RestaurantController::class, 'showFrontPage'])->name('front_page.index');
+Route::get('/', [RestaurantController::class, 'showFrontPage'])->name('front_page.index');
+Route::get('comments/{id}', [CommentController::class, 'show'])->name('comments.show');
+Route::get('restaurants/show/{restaurant}', [RestaurantController::class, 'show'])->name('restaurants.show');
 
 //////////////////////////////////////////////
 
-/* Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('restaurants', App\Http\Controllers\RestaurantController::class);
+    Route::resource('restaurants', RestaurantController::class);
 
-    Route::resource('categories', App\Http\Controllers\CategoryController::class);
+    Route::resource('categories', CategoryController::class);
 
-    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('users', UserController::class);
 
-    Route::post('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
-    Route::get('comments/{id}/crear', [App\Http\Controllers\CommentController::class, 'create'])->name('comments.create');
+    Route::post('comments/store/{id}', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('comments/{id}/crear', [CommentController::class, 'create'])->name('comments.create');
 });
-Route::get('comments/{id}' , [App\Http\Controllers\CommentController::class,'show'])->name('comments.show'); */
-
-Route::get('restaurants/show/{restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->name('restaurants.show');
-

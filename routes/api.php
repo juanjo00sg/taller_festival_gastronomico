@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\RestaurantControllerApi;
+use App\Http\Controllers\api\UserControllerApi;
+use App\Http\Controllers\api\CommentsControllerApi;
+use App\Http\Controllers\api\RestaurantControllerApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +19,11 @@ use App\Http\Controllers\RestaurantControllerApi;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-    Route::apiResource('restaurants', App\Http\Controllers\RestaurantControllerApi::class);
-
-    
-    Route::POST('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
-    Route::get('comments/{id}/crear', [App\Http\Controllers\CommentController::class, 'create'])->name('comments.create');
 });
-route::apiResource('comments',App\Http\Controllers\CommentsControllerApi::class );
-Route::apiResource('users', App\Http\Controllers\UserController::class);
-Route::apiResource('restaurants', App\Http\Controllers\RestaurantControllerApi::class);
+Route::apiResource('users', UserControllerApi::class)->only('index', 'show');
+Route::apiResource('restaurants', RestaurantControllerApi::class);
+route::apiResource('comments', CommentsControllerApi::class)->only('store', 'destroy');
+
+
+
+
