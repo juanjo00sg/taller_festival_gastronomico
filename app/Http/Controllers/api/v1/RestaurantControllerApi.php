@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreRestaurantResquest;
 
 class RestaurantControllerApi extends Controller
@@ -15,8 +16,7 @@ class RestaurantControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // $restaurants = Restaurant::owned(Auth::id())->orderBy('name', 'asc')->get();
+    {        
 
         $res = Restaurant::all();
         if ($res) {
@@ -35,6 +35,10 @@ class RestaurantControllerApi extends Controller
      */
     public function store(StoreRestaurantResquest $request)
     {
+
+        if (!$request->user()->tokenCan('restaurant:store')) {
+            return response()->json(['messge' => 'No autorizado'], 403);
+        }
         $input = $request->all();
 
         $restaurant = new Restaurant();
@@ -72,9 +76,11 @@ class RestaurantControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(StoreRestaurantResquest $request, $id)
+    {        
+        if (!$request->user()->tokenCan('restauranr:update')) {
+            return response()->json(['messge' => 'No autorizado'], 403);
+        }
 
         $input = $request->all();
 

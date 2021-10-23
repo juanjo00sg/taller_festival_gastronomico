@@ -26,6 +26,9 @@ class CommentsControllerApi extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->user()->tokenCan('comment:store')) {
+            return response()->json(['messge' => 'No autorizado'], 403);
+        }
 
         $input = $request->all();
 
@@ -50,7 +53,7 @@ class CommentsControllerApi extends Controller
     {
         //
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -58,7 +61,7 @@ class CommentsControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
@@ -69,10 +72,10 @@ class CommentsControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
 
-        if (Comment::destroy($id)) {
+        if (Comment::destroy($comment)) {
             return response()->json(['message' => 'Comentario eliminado'], 200);
         }
         return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);

@@ -28,6 +28,10 @@ class UserControllerApi extends Controller
      */
     public function store(Request $request)
     {
+
+        if (!$request->user()->tokenCan('user:store')) {
+            return response()->json(['messge' => 'No autorizado'], 403);
+        }
         $input = $request->all();
 
         $user = new User();
@@ -62,6 +66,10 @@ class UserControllerApi extends Controller
      */
     public function update(Request $request,User $user)
     {
+        if (!$request->user()->tokenCan('user:update')) {
+            return response()->json(['messge' => 'No autorizado'], 403);
+        }
+
         $input = $request->all();
 
         $user->fill($input);
