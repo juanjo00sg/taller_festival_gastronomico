@@ -18,18 +18,17 @@ use App\Http\Controllers\api\v1\RestaurantControllerApi;
 |
 */
 
-Route::post('login',[ AuthController::class, 'login'])->name('api.login');
+Route::post('login', [AuthController::class, 'login'])->name('api.login');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('logout',[ AuthController::class, 'logout'])->name('api.logout');
+    Route::apiResource('users', UserControllerApi::class)->only('index', 'show');
+    Route::apiResource('restaurants', RestaurantControllerApi::class);
+    route::apiResource('comments', CommentsControllerApi::class)->only('store', 'destroy');
+    Route::post('logout', [AuthController::class, 'logout'])->name('api.logout');
 });
 
-Route::apiResource('users', UserControllerApi::class)->only('index', 'show');
-Route::apiResource('restaurants', RestaurantControllerApi::class);
-route::apiResource('comments', CommentsControllerApi::class)->only('store', 'destroy');
-
-
+Route::apiResource('restaurants', RestaurantControllerApi::class)->only('index', 'show');

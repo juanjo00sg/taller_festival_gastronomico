@@ -16,11 +16,15 @@ class RestaurantControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {      
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:index')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }  
 
         $res = Restaurant::all();
         if ($res) {
-            return response()->json(['data' => $res, 'message' => 'Restaurantes obtenidos con éxito'], 200);
+            return response()->json(['message' => 'Restaurantes obtenidos con éxito','data' => $res], 200);
         }
 
         return response()->json(['message' => 'No hay restaurantes registrados'], 404);
@@ -37,7 +41,7 @@ class RestaurantControllerApi extends Controller
     {
 
         if (!$request->user()->tokenCan('restaurant:store')) {
-            return response()->json(['messge' => 'No autorizado'], 403);
+            return response()->json(['message' => 'No autorizado'], 403);
         }
         $input = $request->all();
 
@@ -62,6 +66,11 @@ class RestaurantControllerApi extends Controller
      */
     public function show($id)
     {
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:index')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $restaurant = Restaurant::find($id);
         if ($restaurant) {
             return $restaurant;
@@ -79,7 +88,7 @@ class RestaurantControllerApi extends Controller
     public function update(StoreRestaurantResquest $request, $id)
     {        
         if (!$request->user()->tokenCan('restauranr:update')) {
-            return response()->json(['messge' => 'No autorizado'], 403);
+            return response()->json(['message' => 'No autorizado'], 403);
         }
 
         $input = $request->all();
@@ -108,6 +117,10 @@ class RestaurantControllerApi extends Controller
      */
     public function destroy($id)
     {
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:index')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
 
         if (Restaurant::destroy($id)) {
             return response()->json(['message' => 'Restaurante eliminado'], 200);

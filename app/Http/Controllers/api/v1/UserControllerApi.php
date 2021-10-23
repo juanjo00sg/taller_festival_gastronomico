@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserControllerApi extends Controller
@@ -16,6 +17,11 @@ class UserControllerApi extends Controller
      */
     public function index()
     {
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:index')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $users = User::orderBy('id')->get();
         return $users;
     }
@@ -30,7 +36,7 @@ class UserControllerApi extends Controller
     {
 
         if (!$request->user()->tokenCan('user:store')) {
-            return response()->json(['messge' => 'No autorizado'], 403);
+            return response()->json(['message' => 'No autorizado'], 403);
         }
         $input = $request->all();
 
@@ -64,10 +70,10 @@ class UserControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user)
+    public function update(Request $request, User $user)
     {
         if (!$request->user()->tokenCan('user:update')) {
-            return response()->json(['messge' => 'No autorizado'], 403);
+            return response()->json(['message' => 'No autorizado'], 403);
         }
 
         $input = $request->all();
@@ -88,6 +94,12 @@ class UserControllerApi extends Controller
      */
     public function destroy(User $user)
     {
+
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:destroy')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         if ($user->delete()) {
             return response()->json(['message' => 'Usuario eliminado'], 200);
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsControllerApi extends Controller
 {
@@ -27,7 +28,7 @@ class CommentsControllerApi extends Controller
     public function store(Request $request)
     {
         if (!$request->user()->tokenCan('comment:store')) {
-            return response()->json(['messge' => 'No autorizado'], 403);
+            return response()->json(['message' => 'No autorizado'], 403);
         }
 
         $input = $request->all();
@@ -74,6 +75,10 @@ class CommentsControllerApi extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $authUser = Auth::user();
+        if (!$authUser->tokenCan('user:index')) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
 
         if (Comment::destroy($comment)) {
             return response()->json(['message' => 'Comentario eliminado'], 200);
