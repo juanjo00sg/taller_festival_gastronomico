@@ -17,11 +17,11 @@ class RestaurantControllerApi extends Controller
      */
     public function index()
     {
-       // $restaurants = Restaurant::owned(Auth::id())->orderBy('name', 'asc')->get();
+        // $restaurants = Restaurant::owned(Auth::id())->orderBy('name', 'asc')->get();
 
-        $res=Restaurant::all();
+        $res = Restaurant::all();
         if ($res) {
-            return response()->json(['message' => 'Restaurantes obtenidos con éxito'], 200);
+            return response()->json(['data' => $res, 'message' => 'Restaurantes obtenidos con éxito'], 200);
         }
 
         return response()->json(['message' => 'No hay restaurantes registrados'], 404);
@@ -37,14 +37,14 @@ class RestaurantControllerApi extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        
+
         $restaurant = new Restaurant();
         $restaurant->fill($input);
         $restaurant->save();
 
-        
+
         if ($restaurant) {
-            return response()->json(['message' => 'Restaurante creado con éxito']);
+            return response()->json(['message' => 'Restaurante creado con éxito'], 200);
         }
 
         return response()->json(['message' => 'Hubo un error intentando guardar el restaurante '], 500);
@@ -59,7 +59,11 @@ class RestaurantControllerApi extends Controller
      */
     public function show($id)
     {
-        return Restaurant::find($id);
+        $restaurant = Restaurant::find($id);
+        if ($restaurant) {
+            return $restaurant;
+        }
+        return response()->json(['message' => 'Restaurante NO encontrado en el registro'], 404);
     }
 
     /**
@@ -71,16 +75,21 @@ class RestaurantControllerApi extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        //
+
         $input = $request->all();
-        
-        $restaurant = new Restaurant();
+
+        $restaurant = Restaurant::find($id);
+        if (!$restaurant) {
+            return response()->json(['message' => 'Restaurante NO encontrado en el registro'], 404);
+        }
+
         $restaurant->fill($input);
-        
-       $res = $restaurant->save();
-       
+
+        $res = $restaurant->save();
+
         if ($res) {
-            return response()->json(['message' => 'Restaurante actualizado']);
+            return response()->json(['message' => 'Restaurante actualizado'], 200);
         }
 
         return response()->json(['message' => 'Hubo un error actualizando el restaurante'], 500);
@@ -94,10 +103,11 @@ class RestaurantControllerApi extends Controller
      */
     public function destroy($id)
     {
-        Restaurant::destroy($id);
-      
-
-        return response()->json(['message' => 'Restaurante eliminado'], 200);
-        //
+                
+        if (Restaurant::destroy($id)) {
+            return response()->json(['message' => 'Restaurante eliminado'], 200);
+        }
+        return response()->json(['message' => 'Restaurante no encontrado en el registro'], 404);
+        
     }
 }

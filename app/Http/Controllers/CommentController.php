@@ -25,7 +25,7 @@ class CommentController extends Controller
             $comment->save();
             //return $comment;
             if ($comment) {
-                return response()->json(['message' => 'Comentario guardado con éxito'], $comments);
+                return response()->json(['message' => 'Comentario guardado con éxito'], $comment);
             }
     
             return response()->json(['message' => 'Error guardando el comentario'], 500);
@@ -51,10 +51,10 @@ class CommentController extends Controller
    
     public function destroy($id)
     {
-        Restaurant::destroy($id);
+        Comment::destroy($id);
       
 
         return response()->json(['message' => 'Commentario eliminado'], 200);
-        //
+        
     }
 }

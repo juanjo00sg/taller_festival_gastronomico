@@ -22,14 +22,11 @@ class CommentsControllerApi extends Controller
         $input = $request->all();
             
         $comment= new Comment();
-        $comment->fill($input);
-        $comment->user_id = Auth::id();
-        $comment->restaurant_id=$id;
-
+        $comment->fill($input);                
         $comment->save();
-
+        
         if ($comment) {
-            return response()->json(['message' => 'Comentario guardado con éxito'], $comment);
+            return response()->json(['message' => 'Comentario guardado con éxito', 'data'=>$comment], 200);
         }
 
         return response()->json(['message' => 'Error guardando el comentario'], 500);
@@ -44,9 +41,13 @@ class CommentsControllerApi extends Controller
      */
     public function destroy($id)
     {
-        Restaurant::destroy($id);
-    
-        return response()->json(['message' => 'Commentario eliminado'], 200);
+        
+        if (Comment::destroy($id)) {
+            return response()->json(['message' => 'Comentario eliminado'], 200);
+        }
+        return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);
+
+        
         
     }
 }
