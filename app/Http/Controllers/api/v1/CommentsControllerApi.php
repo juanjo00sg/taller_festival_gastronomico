@@ -76,7 +76,7 @@ class CommentsControllerApi extends Controller
     public function destroy(Comment $comment)
     {
         $authUser = Auth::user();
-        if (!$authUser->tokenCan('user:index')) {
+        if (!$authUser->tokenCan('comment:destroy')) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
