@@ -16,7 +16,7 @@ class UserControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
         $authUser = Auth::user();
         if (!$authUser->tokenCan('user:index')) {
             return response()->json(['message' => 'No autorizado'], 403);
@@ -60,7 +60,11 @@ class UserControllerApi extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario = User::find($id);       
+        if ($usuario) {
+            return $usuario;
+        }
+        return response()->json(['message' => 'Usuario NO encontrado en el registro'], 404);
     }
 
     /**
@@ -92,7 +96,7 @@ class UserControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy( $id)
     {
 
         $authUser = Auth::user();
@@ -100,9 +104,11 @@ class UserControllerApi extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        if ($user->delete()) {
+
+        if ($user = User::find($id)) {
+            $user->delete()
             return response()->json(['message' => 'Usuario eliminado'], 200);
         }
-        return response()->json(['message' => 'Usuario no encontrado en el registro'], 404);
+        return response()->json(['message' => 'Usuario NO encontrado en el registro'], 404);
     }
 }

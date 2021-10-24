@@ -16,9 +16,10 @@ class RestaurantControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {      
+    {              
         $authUser = Auth::user();
-        if (!$authUser->tokenCan('user:index')) {
+        
+        if (!$authUser->tokenCan('restaurant:index')) {
             return response()->json(['message' => 'No autorizado'], 403);
         }  
 
@@ -67,7 +68,7 @@ class RestaurantControllerApi extends Controller
     public function show($id)
     {
         $authUser = Auth::user();
-        if (!$authUser->tokenCan('user:index')) {
+        if (!$authUser->tokenCan('restaurant:show')) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -118,11 +119,12 @@ class RestaurantControllerApi extends Controller
     public function destroy($id)
     {
         $authUser = Auth::user();
-        if (!$authUser->tokenCan('user:index')) {
+        if (!$authUser->tokenCan('restaurant:destroy')) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        if (Restaurant::destroy($id)) {
+        if ($res = Restaurant::find($id)) {
+            $res->destroy();
             return response()->json(['message' => 'Restaurante eliminado'], 200);
         }
         return response()->json(['message' => 'Restaurante no encontrado en el registro'], 404);

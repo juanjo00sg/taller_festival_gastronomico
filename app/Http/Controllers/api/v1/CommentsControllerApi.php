@@ -73,14 +73,15 @@ class CommentsControllerApi extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy( $id)
     {
         $authUser = Auth::user();
-        if (!$authUser->tokenCan('user:index')) {
+        if (!$authUser->tokenCan('comment:destroy')) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        if (Comment::destroy($comment)) {
+        if ($com = Comment::find($id)) {
+            $com->delete();
             return response()->json(['message' => 'Comentario eliminado'], 200);
         }
         return response()->json(['message' => 'Comentario no encontrado en el registro'], 404);

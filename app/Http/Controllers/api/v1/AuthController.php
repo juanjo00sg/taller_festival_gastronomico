@@ -42,16 +42,21 @@ class AuthController extends Controller
                 'comment:index', 'comment:store', 'comment:show', 'comment:update', 'comment:destroy',
                 'category:index', 'category:store', 'category:show', 'category:update', 'category:destroy',
             ];
+            $token = $user->createToken($tokenType, $abilities);
         } elseif ($user->type == 'owner') {
             $abilities = [
                 'restaurant:index', 'restaurant:store', 'restaurant:show', 'restaurant:update', 'restaurant:destroy',
                 'comment:index', 'comment:store', 'comment:show', 'comment:update', 'comment:destroy',
             ];
+            $token = $user->createToken($tokenType, $abilities);
         } elseif ($user->type == 'user') {
             $abilities = ['comment:index', 'comment:store', 'comment:show', 'comment:update', 'comment:destroy',];
+            $token = $user->createToken($tokenType, $abilities);
+        }else {
+            $token = $user->createToken($tokenType);
         }
 
-        $token = $user->createToken($tokenType, ($abilities ?? null));
+        $token = $user->createToken($tokenType, $abilities);
 
         return response()->json([
             'token' => $token->plainTextToken,
