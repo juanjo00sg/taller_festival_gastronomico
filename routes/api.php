@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('users', UserControllerApi::class)->only('index', 'show');
-    Route::apiResource('restaurants', RestaurantControllerApi::class);
+    Route::apiResource('restaurants', RestaurantControllerApi::class)->except('index', 'show');
     route::apiResource('comments', CommentsControllerApi::class)->only('store', 'destroy');
     Route::post('logout', [AuthController::class, 'logout'])->name('api.logout');
 });
