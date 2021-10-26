@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\v1\UserResource;
 
 class UserControllerApi extends Controller
 {
@@ -106,7 +107,7 @@ class UserControllerApi extends Controller
 
 
         if ($user = User::find($id)) {
-            $user->delete()
+            $user->delete();
             return response()->json(['message' => 'Usuario eliminado'], 200);
         }
         return response()->json(['message' => 'Usuario NO encontrado en el registro'], 404);
