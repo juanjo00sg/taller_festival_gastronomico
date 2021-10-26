@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\v1\UserResource;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -19,9 +20,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id')->get();
+        $users = User::orderBy('id')->paginate();
         //return view('users.index', compact('users'));
-        return $users;
+        //return $users;
+       // return (new UserResource($users))->response()->setStatusCode(200);
+       return UserResource::collection($users);
     }
 
     /**
