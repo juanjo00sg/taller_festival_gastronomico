@@ -22,8 +22,8 @@ class UserControllerApi extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        $users = User::orderBy('id')->get();
-        return $users;
+        $users = User::orderBy('id')->paginate();
+        return UserResource::collection($users);
     }
 
     /**

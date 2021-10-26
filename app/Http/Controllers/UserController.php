@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\v1\UserResource;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
