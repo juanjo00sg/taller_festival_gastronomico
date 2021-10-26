@@ -36,6 +36,8 @@ Route::get('/', [App\Http\Controllers\RestaurantController::class, 'showFrontPag
     Route::POST('comments/store/{id}', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
     Route::get('comments/{id}/crear', [App\Http\Controllers\CommentController::class, 'create'])->name('comments.create');
 });
-Route::get('comments/{id}' , [App\Http\Controllers\CommentController::class,'show'])->name('comments.show'); */
 
+Route::resource('comments',App\Http\Controllers\CommentController::class );
+
+Route::get('restaurants/show/{restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->name('restaurants.show');
 

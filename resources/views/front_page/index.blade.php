@@ -46,7 +46,7 @@
                                     @auth
                                     <a href="{{ route("comments.create", $restaurant->id) }}" class="btn btn-primary">Dejar comentarios</a>
                                     @endauth
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     @endif
