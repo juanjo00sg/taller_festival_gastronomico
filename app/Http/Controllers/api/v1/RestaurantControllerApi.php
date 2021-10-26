@@ -16,12 +16,7 @@ class RestaurantControllerApi extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {              
-        $authUser = Auth::user();
-        
-        if (!$authUser->tokenCan('restaurant:index')) {
-            return response()->json(['message' => 'No autorizado'], 403);
-        }  
+    {                        
 
         $res = Restaurant::all();
         if ($res) {
@@ -29,7 +24,7 @@ class RestaurantControllerApi extends Controller
         }
 
         return response()->json(['message' => 'No hay restaurantes registrados'], 404);
-        //
+        
     }
 
     /**
@@ -67,10 +62,7 @@ class RestaurantControllerApi extends Controller
      */
     public function show($id)
     {
-        $authUser = Auth::user();
-        if (!$authUser->tokenCan('restaurant:show')) {
-            return response()->json(['message' => 'No autorizado'], 403);
-        }
+        
 
         $restaurant = Restaurant::find($id);
         if ($restaurant) {
